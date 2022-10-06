@@ -1,7 +1,7 @@
 Django==3.2
-django-cors-headers==3.13.0
+django-cors-headers
 djangorestframework
-gunicorn==20.1.0
-whitenoise==6.2.0
+gunicorn
+whitenoise
 django-environ
 psycopg-binary
