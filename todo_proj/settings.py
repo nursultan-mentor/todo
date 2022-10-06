@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,38 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lv(n=@j2obd23-*!d6zyi3nkv#u2sc3y_sjo_ho9fno87gsf1u'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+AWS_SERVER = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'nursultan-todo-app.herokuapp.com']
+
+if AWS_SERVER:
+    env = environ.Env()
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env_dev'))
+    SECRET_KEY = env('SECRET_KEY')
+    DEBUG = env.bool('DEBUG', default=False)
+    ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env("DB_NAME"),
+            'USER': env("DB_USER"),
+            'PASSWORD': env("DB_PASSWORD"),
+            'HOST': 'localhost',
+        }
+    }
+else:
+    SECRET_KEY = 'SECRET_KEY'
+    DEBUG = True
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost', ]
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Application definition
 
@@ -75,13 +102,6 @@ WSGI_APPLICATION = 'todo_proj.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
