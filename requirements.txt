@@ -4,4 +4,4 @@ djangorestframework
 gunicorn
 whitenoise
 django-environ
-psycopg-binary
+psycopg
