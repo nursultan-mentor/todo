@@ -3,3 +3,4 @@ todo_app/__pycache__/
 todo_app/migrations/__pycache__/
 todo_proj/__pycache__/
 .idea/
+staticfiles/
