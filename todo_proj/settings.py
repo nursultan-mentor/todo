@@ -31,7 +31,7 @@ if AWS_SERVER:
     env = environ.Env()
     environ.Env.read_env(os.path.join(BASE_DIR, '.env_dev'))
     SECRET_KEY = env('SECRET_KEY')
-    DEBUG = env.bool('DEBUG', default=False)
+    DEBUG = env.bool('DEBUG')
     ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
     DATABASES = {
         'default': {
